@@ -12,7 +12,7 @@ let shortcutKey = process.platform == "darwin" ? "command" : "Ctrl";
 
 const templateMenu = [
   {
-    label: "Products",
+    label: "File",
     submenu: [
       {
         label: "New Product",
@@ -32,6 +32,17 @@ const templateMenu = [
         accelerator: shortcutKey + "+Q",
         click() {
           app.quit();
+        },
+      },
+    ],
+  },
+  {
+    label: "Help",
+    submenu: [
+      {
+        label: "About",
+        click() {
+          openAbout();
         },
       },
     ],
@@ -69,7 +80,7 @@ function openNewProductWindow() {
     height: 400,
     title: "New Product",
   });
-  //   newProductWindow.setMenu(null);
+  newProductWindow.setMenu(null);
   newProductWindow.loadURL(
     url.format({
       pathname: path.join(__dirname, "views/newprod.html"),
@@ -81,6 +92,23 @@ function openNewProductWindow() {
     newProductWindow = null;
   });
 }
+
+function openAbout() {
+  let aboutWindow = new BrowserWindow({
+    width: 600,
+    height: 800,
+    title: "About",
+  });
+  aboutWindow.setMenu(null);
+  aboutWindow.loadURL(
+    url.format({
+      pathname: path.join(__dirname, "views/about.html"),
+      protocol: "file",
+      slashes: true,
+    })
+  );
+}
+
 app.on("ready", () => {
   mainWindow = new BrowserWindow({
     webPreferences: {
